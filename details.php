@@ -11,8 +11,7 @@ if (!isset($_GET['id'])) {
 
 $item_id = mysqli_real_escape_string($conn, $_GET['id']);
 
-// ডাটাবেস থেকে আইটেম এবং ইউজার তথ্য আনা (email এবং owner_id সহ)
-// এখানে phone কলামটি যদি না থাকে তবে যেন এরর না দেয় তাই চেক করা হচ্ছে
+// ডাটাবেস থেকে আইটেম এবং ইউজার তথ্য আনা
 $query = "SELECT items.*, users.full_name, users.email, users.user_id as owner_id 
           FROM items 
           JOIN users ON items.user_id = users.user_id 
@@ -41,6 +40,7 @@ $verify_status = $_GET['verify'] ?? '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($item['title']) ?> | Details</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg-body: #0a0f1c; --card-bg: #111827; --nsu-gold: #fdb913; --text-main: #f8fafc; --secondary-text: #94a3b8; --accent-blue: #3b82f6; --accent-red: #ef4444; }
@@ -84,31 +84,25 @@ $verify_status = $_GET['verify'] ?? '';
 
                 <?php elseif ($verify_status === 'full'): ?>
                     <div class="status-box" style="border-style: solid; border-color: #22c55e; background: rgba(34, 197, 94, 0.05);">
-                        <h4 style="color: #22c55e; margin: 0 0 10px;">Full Verification Successful!</h4>
+                        <h4 style="color: #22c55e; margin: 0 0 10px;"><i class="ri-checkbox-circle-fill"></i> Full Verification Successful!</h4>
                         <p style="margin-bottom: 15px;"><strong>Owner Email:</strong> <?= htmlspecialchars($item['email']) ?></p>
-                        <a href="messages.php?receiver_id=<?= $item['owner_id'] ?>&item_id=<?= $item['item_id'] ?>" class="btn btn-verify">
-                            <i class="fas fa-paper-plane"></i> Send Message Now
+                        <a href="chat.php?receiver_id=<?= $item['owner_id'] ?>&item_id=<?= $item['item_id'] ?>" class="btn btn-verify">
+                            <i class="ri-send-plane-fill"></i> Send Message Now
                         </a>
                     </div>
 
                 <?php elseif ($verify_status === 'partial'): ?>
-                    <div class="status-box" style="border-style: solid; border-color: #22c55e; background: rgba(34, 197, 94, 0.05);">
-                        <h4 style="color: #22c55e; margin: 0 0 10px;">Verification Successful!</h4>
-                        <a href="messages.php?receiver_id=<?= $item['owner_id'] ?>&item_id=<?= $item['item_id'] ?>" class="btn btn-verify">
-                            <i class="fas fa-paper-plane"></i> Send Message Now
+                    <div class="status-box" style="border-style: solid; border-color: #3b82f6; background: rgba(59, 130, 246, 0.05);">
+                        <h4 style="color: #3b82f6; margin: 0 0 10px;"><i class="ri-checkbox-circle-fill"></i> Verification Successful!</h4>
+                        <p style="font-size: 0.85rem; color: var(--secondary-text); margin-bottom: 15px;">Email is hidden. You can contact the owner via direct message.</p>
+                        <a href="chat.php?receiver_id=<?= $item['owner_id'] ?>&item_id=<?= $item['item_id'] ?>" class="btn btn-verify">
+                            <i class="ri-send-plane-fill"></i> Send Message Now
                         </a>
                     </div>
 
-                <?php elseif ($verify_status === 'contact_only'): ?>
-                    <div class="status-box" style="border-color: var(--nsu-gold); background: rgba(253, 185, 19, 0.05); border-style: solid;">
-                        <h4 style="color: var(--nsu-gold); margin: 0 0 10px;">Partial Success</h4>
-                        <p style="font-size: 0.9rem; margin-bottom: 10px;">Contact owner via email:</p>
-                        <p><strong>Email:</strong> <?= htmlspecialchars($item['email']) ?></p>
-                    </div>
-
                 <?php elseif ($verify_status === 'failed'): ?>
-                    <div class="status-box" style="border-color: var(--accent-red); background: rgba(239, 68, 68, 0.05);">
-                        <p style="color: var(--accent-red);">Verification failed. Incorrect information.</p>
+                    <div class="status-box" style="border-color: var(--accent-red); background: rgba(239, 68, 68, 0.05); border-style: solid;">
+                        <p style="color: var(--accent-red); margin: 0 0 10px;">Verification failed. Incorrect information.</p>
                         <a href="verify_claim.php?item_id=<?= $item['item_id'] ?>" class="btn btn-verify" style="background: #334155;">Try Again</a>
                     </div>
 
