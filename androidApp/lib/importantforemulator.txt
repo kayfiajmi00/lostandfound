@@ -1,0 +1,11 @@
+for physical phone: http://localhost:8080/kayfi2
+for emulator : http://10.0.2.2/kayfi2
+to run the code in physical phone we need to run this cmdline 
+adb reverse tcp:8080 tcp:80
+
+if the 8080 is available/free then we can run that on phone
+
+Need to revert 
+adb kill-server
+adb start-server
+adb devices
