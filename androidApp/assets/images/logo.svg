@@ -1,0 +1,10 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="40" fill="#F5A623"/>
+  <!-- Magnifier circle -->
+  <circle cx="88" cy="88" r="38" fill="none" stroke="white" stroke-width="14"/>
+  <!-- Magnifier handle -->
+  <line x1="116" y1="116" x2="148" y2="148" stroke="white" stroke-width="14" stroke-linecap="round"/>
+  <!-- Location pin inside magnifier -->
+  <circle cx="88" cy="82" r="12" fill="white"/>
+  <path d="M88 94 Q88 108 88 112" stroke="white" stroke-width="6" stroke-linecap="round" fill="none"/>
+</svg>
